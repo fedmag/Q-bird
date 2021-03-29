@@ -1,3 +1,5 @@
+import pygame
+from pipe import Pipe
 class World():
 
     def __init__(self) -> None:
@@ -7,7 +9,7 @@ class World():
         self.BASE = "data/sprites/base.png"
         self.BASE_HEIGHT = 112 
         # variables
-        self.GRAVITY = 1.7
+        self.GRAVITY = 0.08
         self.pipes = []
 
     def add_pipe(self, pipe):
@@ -18,6 +20,11 @@ class World():
             if pipe.x < - pipe.PIPE_WIDTH:
                 self.pipes.remove(pipe)
 
-    def generate_pipes (self, pipe):
+    def clear_pipes(self):
+        self.pipes.clear()
+
+    def generate_pipes (self, SCREEN_SIZE):
+        pipe = Pipe(SCREEN_SIZE)
         self.add_pipe(pipe)
-        self.remove_unused_pipes()
+        if len(self.pipes) != 0: 
+            self.remove_unused_pipes()
