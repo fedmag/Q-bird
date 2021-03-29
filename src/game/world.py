@@ -7,4 +7,17 @@ class World():
         self.BASE = "data/sprites/base.png"
         self.BASE_HEIGHT = 112 
         # variables
-        self.GRAVITY = 2
+        self.GRAVITY = 1.7
+        self.pipes = []
+
+    def add_pipe(self, pipe):
+        self.pipes.append(pipe)
+
+    def remove_unused_pipes(self):
+        for pipe in self.pipes:
+            if pipe.x < - pipe.PIPE_WIDTH:
+                self.pipes.remove(pipe)
+
+    def generate_pipes (self, pipe):
+        self.add_pipe(pipe)
+        self.remove_unused_pipes()

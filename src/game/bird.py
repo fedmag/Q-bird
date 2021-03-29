@@ -5,7 +5,7 @@ class Bird():
         # parameters
         self.x = 50
         self.y = 200
-        self.FLY_DISTANCE = 100
+        self.FLY_DISTANCE = 80
 
         # sprites
         self.sprite_w = 34
