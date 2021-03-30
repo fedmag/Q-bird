@@ -18,7 +18,7 @@ class Pipe():
             self.x = random.randint(SCREEN_SIZE[0], SCREEN_SIZE[0] + 70)
             self.y = random.choice(self.BOT_POS)
         # hitbox
-        self.hitbox = pygame.Rect(self.x, self.y, self.PIPE_WIDTH, self.PIPE_HEIGHT)
+        self.hitbox = pygame.Rect(self.x, self.y, self.PIPE_WIDTH - 2, self.PIPE_HEIGHT - 2) # -2 is being more forgiving
 
     def move(self, mov_speed):
         self.x -= mov_speed

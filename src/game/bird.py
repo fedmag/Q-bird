@@ -16,7 +16,7 @@ class Bird():
         self.DOWN_FLAP = "data/sprites/bluebird-downflap.png"
         self.UP_FLAP = "data/sprites/bluebird-upflap.png"
         # hitbox
-        self.hitbox = pygame.Rect(self.x, self.y, self.sprite_w, self.sprite_h)
+        self.hitbox = pygame.Rect(self.x, self.y, self.sprite_w -2 , self.sprite_h -2) # -2 is being more forgiving
 
     
     def fall(self, gravity):
