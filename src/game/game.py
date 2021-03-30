@@ -124,7 +124,7 @@ class Game():
             if pipe.cieling_pipe: # top_pipe
                 v_dist = self.bird.hitbox.top - pipe.hitbox.bottom
             else: # bot pipe
-                v_dist = pipe.hitbox.bottom - self.bird.hitbox.top
+                v_dist = pipe.hitbox.top - self.bird.hitbox.bottom
             h_dist = pipe.hitbox.left - self.bird.hitbox.right
             return v_dist, h_dist
 
