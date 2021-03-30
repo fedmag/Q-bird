@@ -88,6 +88,46 @@ class Game():
         text_rect.midtop = (self.SCREEN_SIZE[0] - 50, 20)
         self.screen.blit(text_surface, text_rect)
 
+    def get_state(self):
+        top_distance = self.bird.hitbox.top
+        bot_distance = (self.SCREEN_SIZE[1] - self.world.BASE_HEIGHT) - self.bird.hitbox.bottom
+        closest_pipe_top = None
+        closest_pipe_bot = None
+        for pipe in self.world.pipes:
+            if pipe != None:
+                if pipe.cieling_pipe: # top pipes
+                    if closest_pipe_top == None:
+                        closest_pipe_top = pipe
+                    else: 
+                        _, current_pipe_dist = self.get_distances(closest_pipe_top)
+                        _, candidate_pipe_dist = self.get_distances(pipe)
+                        if candidate_pipe_dist < current_pipe_dist:
+                            closest_pipe_top = pipe
+                else: # bot pipes
+                    if closest_pipe_bot == None:
+                        closest_pipe_bot = pipe
+                    else: 
+                        _, current_pipe_dist = self.get_distances(closest_pipe_bot)
+                        _, candidate_pipe_dist = self.get_distances(pipe)
+                        if candidate_pipe_dist < current_pipe_dist:
+                            closest_pipe_bot = pipe
+        if closest_pipe_bot != None and closest_pipe_top != None:
+            top_v_dist, top_h_dist = self.get_distances(closest_pipe_top)
+            bot_v_dist, bot_h_dist = self.get_distances(closest_pipe_bot)
+            print(f"top: v {top_v_dist}, h {top_h_dist}")
+            print(f"bot: v {bot_v_dist}, h {bot_h_dist}")
+            print("====================")
+
+
+    def get_distances(self, pipe):
+        if pipe != None:
+            if pipe.cieling_pipe: # top_pipe
+                v_dist = self.bird.hitbox.top - pipe.hitbox.bottom
+            else: # bot pipe
+                v_dist = pipe.hitbox.bottom - self.bird.hitbox.top
+            h_dist = pipe.hitbox.left - self.bird.hitbox.right
+            return v_dist, h_dist
+
     def run(self):
         while True: # game loop
             self.game_running = self.detect_collision()
@@ -126,6 +166,7 @@ class Game():
             self.detect_collision()
             self.draw_score()
             self.draw_game_over()
+            self.get_state()
             # TODO: fix the animation
             # my_group.draw(self.screen)
             self.screen.blit(pygame.image.load(self.bird_icon).convert_alpha(), self.bird.hitbox) # bird -> convert_alpha is need for transparent bg 
