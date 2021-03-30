@@ -12,8 +12,8 @@ class World():
         self.GRAVITY = 0.08
         self.pipes = []
 
-    def add_pipe(self, pipe):
-        self.pipes.append(pipe)
+    def add_pipes(self, pipe1, pipe2):
+        self.pipes.extend([pipe1, pipe2])
 
     def remove_unused_pipes(self):
         for pipe in self.pipes:
@@ -24,7 +24,8 @@ class World():
         self.pipes.clear()
 
     def generate_pipes (self, SCREEN_SIZE):
-        pipe = Pipe(SCREEN_SIZE)
-        self.add_pipe(pipe)
+        pipe1 = Pipe(SCREEN_SIZE)
+        pipe2 = Pipe(SCREEN_SIZE, pipe1.x, pipe1.y)
+        self.add_pipes(pipe1, pipe2)
         if len(self.pipes) != 0: 
             self.remove_unused_pipes()

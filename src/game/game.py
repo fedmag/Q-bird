@@ -10,7 +10,7 @@ class Game():
     def __init__(self) -> None:
         self.SCREEN_SIZE = (288, 512)
         self.MOV_SPEED = 1 
-        # TODO: fix the animation
+        # FIXME: fix the animation
         # class MySprite(pygame.sprite.Sprite):
         #     def __init__(self, bird) -> None:
         #         super(MySprite, self).__init__()
@@ -71,6 +71,7 @@ class Game():
         if not self.game_running:
             self.screen.blit(pygame.image.load("data/sprites/gameover.png"), (50, 100))
 
+    # FIXME
     def wing_animation(self):
         if self.bird_icon == self.bird.MID_FLAP:
             self.screen.blit(pygame.image.load(self.bird.UP_FLAP).convert_alpha(), self.bird.hitbox)
@@ -87,7 +88,6 @@ class Game():
         text_rect.midtop = (self.SCREEN_SIZE[0] - 50, 20)
         self.screen.blit(text_surface, text_rect)
 
-    
     def run(self):
         while True: # game loop
             self.game_running = self.detect_collision()
@@ -110,8 +110,7 @@ class Game():
                 if event.type == self.SPAWN_PIPE and self.game_running:
                     self.world.generate_pipes(self.SCREEN_SIZE )
                     self.score += 1
-                    print(self.score)
-            
+                    print(self.score) 
             if self.game_running:
                 self.bird.fall(self.world.GRAVITY) # the bird falls at each iteration
                 self.base_x -= self.MOV_SPEED
