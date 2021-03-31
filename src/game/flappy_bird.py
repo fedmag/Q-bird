@@ -104,7 +104,7 @@ class FlappyBird():
                     else: 
                         _, current_pipe_dist = self.get_distances(closest_pipe_top)
                         _, candidate_pipe_dist = self.get_distances(pipe)
-                        if candidate_pipe_dist < current_pipe_dist:
+                        if candidate_pipe_dist < current_pipe_dist or current_pipe_dist < 0 : # we want to ignore the pipes we already passed
                             closest_pipe_top = pipe
                 else: # bot pipes
                     if closest_pipe_bot == None:
@@ -112,12 +112,15 @@ class FlappyBird():
                     else: 
                         _, current_pipe_dist = self.get_distances(closest_pipe_bot)
                         _, candidate_pipe_dist = self.get_distances(pipe)
-                        if candidate_pipe_dist < current_pipe_dist:
+                        if candidate_pipe_dist < current_pipe_dist or current_pipe_dist < 0: # we want to ignore the pipes we already passed
                             closest_pipe_bot = pipe
         if closest_pipe_bot != None and closest_pipe_top != None:
             top_v_dist, top_h_dist = self.get_distances(closest_pipe_top)
             bot_v_dist, bot_h_dist = self.get_distances(closest_pipe_bot)
 
+            print(f"bot: v {bot_v_dist}, h {bot_h_dist}")
+
+    # FIXME we should probably ignore the pipes for which the h-dist in negative
     def get_distances(self, pipe):
         if pipe != None:
             if pipe.cieling_pipe: # top_pipe
