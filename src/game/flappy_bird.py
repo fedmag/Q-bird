@@ -5,7 +5,7 @@ from bird import Bird
 from world import World
 from pipe import Pipe
 
-class Game():
+class FlappyBird():
 
     def __init__(self) -> None:
         self.SCREEN_SIZE = (288, 512)
@@ -40,7 +40,9 @@ class Game():
         self.base_x = 0
         # spawns
         self.SPAWN_PIPE = pygame.USEREVENT
-        pygame.time.set_timer(self.SPAWN_PIPE, 1000)
+        pygame.time.set_timer(self.SPAWN_PIPE, 900)
+        # self.ACTION = pygame.USEREVENT
+        # pygame.time.set_timer(self.ACTION, 200)
 
         # TODO: fix the animation
         # my_sprite = MySprite(bird)
@@ -88,6 +90,7 @@ class Game():
         text_rect.midtop = (self.SCREEN_SIZE[0] - 50, 20)
         self.screen.blit(text_surface, text_rect)
 
+    # TODO add a returning list
     def get_state(self):
         top_distance = self.bird.hitbox.top
         bot_distance = (self.SCREEN_SIZE[1] - self.world.BASE_HEIGHT) - self.bird.hitbox.bottom
@@ -114,10 +117,6 @@ class Game():
         if closest_pipe_bot != None and closest_pipe_top != None:
             top_v_dist, top_h_dist = self.get_distances(closest_pipe_top)
             bot_v_dist, bot_h_dist = self.get_distances(closest_pipe_bot)
-            print(f"top: v {top_v_dist}, h {top_h_dist}")
-            print(f"bot: v {bot_v_dist}, h {bot_h_dist}")
-            print("====================")
-
 
     def get_distances(self, pipe):
         if pipe != None:
@@ -127,18 +126,19 @@ class Game():
                 v_dist = pipe.hitbox.top - self.bird.hitbox.bottom
             h_dist = pipe.hitbox.left - self.bird.hitbox.right
             return v_dist, h_dist
-
+ 
+    # game loop
     def run(self):
         while True: # game loop
             self.game_running = self.detect_collision()
-            # event management
+            ######## event management
             for event in pygame.event.get():
                 # quitting
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_SPACE and self.game_running:
+                if event.type == pygame.KEYDOWN: # human playing
+                    if event.key == pygame.K_SPACE and self.game_running: 
                         self.bird.fall(0)
                         self.bird.fly()
                         self.wing_animation()
@@ -150,7 +150,11 @@ class Game():
                 if event.type == self.SPAWN_PIPE and self.game_running:
                     self.world.generate_pipes(self.SCREEN_SIZE )
                     self.score += 1
-                    print(self.score) 
+            ########
+            # if agent.get_action(self.get_state()) == 1 and self.game_running: # ai playing
+            #         self.bird.fall(0)
+            #         self.bird.fly()
+            #         self.wing_animation() 
             if self.game_running:
                 self.bird.fall(self.world.GRAVITY) # the bird falls at each iteration
                 self.base_x -= self.MOV_SPEED
@@ -175,5 +179,5 @@ class Game():
 
 
 if __name__ == "__main__":
-    game = Game()
+    game = FlappyBird()
     game.run()

@@ -1,2 +1,5 @@
+from flappy_bird import FlappyBird
 class Agent():
-    pass
+    def __init__(self) -> None:
+        print("instanciated")
+        game = FlappyBird()
